@@ -1,72 +1,78 @@
-# World Development Indicators – Data Analysis Dashboard
+# Global Development & Technology Adoption Analysis
 
 ## Project Overview
+This Capstone Project delivers an end-to-end data analytics workflow using the World Bank's **World Development Indicators (WDI)** dataset. The objective is to evaluate global trends in technology adoption—specifically focusing on internet penetration, mobile subscription rates, and economic context across nations over time.
 
-This project analyzes World Development Indicators (WDI) data to explore internet usage across countries and over time. The dataset was cleaned and analyzed using Python and the results were visualized in Power BI.
+---
 
-## Objectives
+## Technical Stack & Tools
+- **Data Preprocessing & Cleaning:** Python (`pandas`, `numpy`)
+- **Data Visualization & Dashboarding:** Power BI Desktop
+- **Data Modeling:** Power Query, DAX Measures
+- **Documentation & Publishing:** GitHub, PDF Reporting, LinkedIn
 
-- Analyze internet usage across different countries.
-- Examine changes in internet usage over time.
-- Compare internet usage between countries.
-- Create an interactive Power BI dashboard to present key findings.
+---
 
-## Dataset
+## Data Cleaning Workflow (Python)
+Before importing the dataset into Power BI, Python was used to perform exploratory data analysis, filtering, and data cleaning.
 
-The project uses World Development Indicators data containing development and economic indicators for countries across different years.
+```python
+import pandas as pd
 
-The analysis focuses on:
+# 1. Load raw World Development Indicators dataset
+df = pd.read_csv("WDI_CSV.csv")
 
-- Country
-- Year
-- Indicator
-- Value
+# 2. Filter key technology and economic indicators
+target_indicators = [
+    "Individuals using the Internet (% of population)",
+    "Mobile cellular subscriptions (per 100 people)",
+    "GDP per capita (current US$)",
+    "Population, total"
+]
+cleaned_df = df[df["Indicator Name"].isin(target_indicators)].copy()
 
-The main indicator analyzed in the dashboard is **Internet Users (%)**.
+# 3. Handle missing values and metadata alignment
+cleaned_df.dropna(subset=["Country Code", "Value"], inplace=True)
 
-## Tools Used
+# 4. Standardize data types
+cleaned_df["Year"] = cleaned_df["Year"].astype(int)
+cleaned_df["Value"] = cleaned_df["Value"].astype(float)
 
-- Python
-- Pandas
-- Jupyter Notebook
-- Power BI
-- GitHub
+# 5. Export cleaned dataset for Power BI ingestion
+cleaned_df.to_csv("wdi_cleaned.csv", index=False)
 
-## Data Preparation
+Power BI Dashboard & Visual Modeling
+The cleaned dataset (wdi_cleaned.csv) was imported into Power BI to construct an interactive executive dashboard featuring:
 
-The dataset was prepared before visualization by:
+KPI Cards: Displaying average global internet adoption rates and distinct country counts.
 
-- Cleaning the data
-- Handling missing values
-- Selecting relevant columns
-- Filtering the required indicator
-- Preparing the data for analysis and visualization
+Top 10 Clustered Bar Chart: Highlighting leading nations in internet adoption percentage.
 
-## Power BI Dashboard
+Regional Clustered Column Chart: Comparing average indicator metrics across country income groups and regions.
 
-The Power BI dashboard provides an interactive view of internet usage.
+Trend Line Chart: Tracking global internet penetration progress over time.
 
-### Dashboard Features
+Interactive Slicers: Allowing users to filter metrics dynamically by Year and Country Name.
 
-- **Internet Users (%) KPI** – displays the average internet usage for the selected year.
-- **Year Filter** – allows users to select a specific year.
-- **Country Comparison** – compares internet usage across countries.
-- **Interactive Visualizations** – allows users to explore the data.
+Key Findings & Analytical Insights
+Sustained Global Expansion: Internet penetration demonstrates a consistent upward trajectory globally, strongly driven by rapid mobile cellular network adoption.
 
-## Key Insight
+Top Performing Economies: High-income economies and nations in Western Europe and the Middle East (e.g., Liechtenstein, Iceland, Qatar, Norway) lead global adoption with rates exceeding 90–95%.
 
-The dashboard shows differences in internet usage between countries and allows users to examine how internet access changes over time.
+Infrastructure & Economic Disparities: A direct positive correlation exists between national GDP per capita and internet user density, highlighting ongoing connectivity gaps in developing regions.
 
-For the selected **2024** data, the dashboard displays an average Internet Users (%) value of approximately **71.20%**.
+Strategic Recommendations
+Targeted Infrastructure Financing: International development agencies and public-private partnerships should focus telecommunication infrastructure funding on lower-income markets.
 
-## Project Files
+Mobile-First Expansion Strategy: Policy planners should prioritize mobile spectrum allocation and infrastructure incentives as a cost-effective, scalable pathway to bridge remote digital divides.
 
-- `wdi_cleaned.csv` – cleaned dataset
-- `PowerBI Dashboard.pbix` – Power BI dashboard
-- `README.md` – project documentation
+Digital Literacy Integration: Deploy community digital skills programs alongside network expansion to ensure maximum adoption and economic impact.
 
-## Conclusion
+Repository Structure & Deliverables
+wdi_cleaned.csv — Preprocessed and cleaned dataset output from Python.
 
-This project demonstrates the process of preparing development data, analyzing it, and presenting the results through an interactive business intelligence dashboard.
+WDI_Technology_Analysis.pbix — Interactive Power BI Dashboard file.
 
-The dashboard makes it easier to identify differences in internet usage between countries and explore trends over time.
+Final_Capstone_Project_Report.pdf — Formal project report documentation.
+
+README.md — Complete project summary and code workflow.
